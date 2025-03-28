@@ -23,3 +23,7 @@ canadian_prime_ministers
 ## Present Scope
 
 `RKaggle` presently only supports the download and loading of csv files.
+
+## Acknowledgements
+
+The [TidyTuesday project](https://github.com/rfordatascience/tidytuesday) from where I based the code for this package on. 
