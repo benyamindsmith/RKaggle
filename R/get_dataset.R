@@ -1,6 +1,6 @@
 #' Download and Read a Dataset from Kaggle
 #'
-#' This function retrieves a dataset from Kaggle by downloading its metadata and associated ZIP file, then reading all CSV files contained in the archive. The ZIP file is downloaded to a temporary location and extracted to another temporary directory. Each CSV file is then imported as a data frame, and the function returns a list of these data frames.
+#' This function retrieves a dataset from Kaggle by downloading its metadata and associated ZIP file, then reading all CSV files contained in the archive. The ZIP file is downloaded to a temporary location and extracted to another temporary directory. Each CSV file is then imported as a data frame, and the function the dataset as a single data frame. In the case of multiple csv files, a unnamed list is returned. 
 #'
 #' @param dataset A character string specifying the dataset identifier on Kaggle. It should follow the format "username/dataset-name".
 #'
@@ -11,14 +11,16 @@
 #'   \item No CSV files are found in the unzipped contents.
 #' }
 #'
-#' @return A list of data frames, where each data frame corresponds to a CSV file extracted from the dataset's ZIP archive.
 #'
 #' @examples
 #' \dontrun{
 #'   # Download and read the "canadian-prime-ministers" dataset from Kaggle
 #'   canadian_prime_ministers <- get_dataset("benjaminsmith/canadian-prime-ministers")
-#'   # Access the first data frame from the list
-#'   df <- canadian_prime_ministers[[1]]
+#'   canadian_prime_ministers
+#'   
+#'   # Download the titanic dataset
+#'   titanic <- get_dataset("azeembootwala/titanic")
+#'   titanic
 #' }
 #'
 #' @import httr readr withr utils
