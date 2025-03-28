@@ -15,8 +15,9 @@ devtools::install_github("benyamindsmith/RKaggle")
 ## Sample Usage
 
 ```r
+library(RKaggle)
 # Download and read the "canadian-prime-ministers" dataset from Kaggle
-canadian_prime_ministers <- get_dataset("benjaminsmith/canadian-prime-ministers")
+canadian_prime_ministers <- RKaggle::get_dataset("benjaminsmith/canadian-prime-ministers")
 canadian_prime_ministers
 ```
 ## Present Scope
