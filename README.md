@@ -1,7 +1,7 @@
 # RKaggle <a href='https://github.com/benyamindsmith/RKaggle'><img src='https://github.com/benyamindsmith/RKaggle/raw/main/utils/png/hex_sticker.png' align="right" height="300" /></a>
 
 
-An R package for downloading datasets from Kaggle into the R Console as dataframes
+An R package for downloading datasets from Kaggle into the R Console
 
 ## Installation
 
