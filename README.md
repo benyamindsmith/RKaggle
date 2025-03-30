@@ -47,6 +47,10 @@ devtools::install_github("benyamindsmith/RKaggle")
 - `.parquet`
 - `.ods`
 
+## References
+
+1. Akhtar et al. (2024). Croissant: A Metadata Format for ML-Ready Datasets. Proceedings of the Eighth Workshop on Data Management for End-To-End Machine Learning, 4, 1–6. https://doi.org/10.1145/3650203.3663326
+
 ## Acknowledgements
 
 The [TidyTuesday project](https://github.com/rfordatascience/tidytuesday) from where I based the code for this package on initially. 
