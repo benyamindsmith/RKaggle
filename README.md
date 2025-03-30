@@ -1,7 +1,7 @@
 # RKaggle <a href='https://github.com/benyamindsmith/RKaggle'><img src='https://github.com/benyamindsmith/RKaggle/raw/main/utils/png/hex_sticker.png' align="right" height="300" /></a>
 
 
-An R package for downloading datasets from Kaggle into the R Console
+An R package for downloading datasets from Kaggle into the R Console.
 
 ## Installation
 
@@ -46,6 +46,10 @@ devtools::install_github("benyamindsmith/RKaggle")
 - `.rds`
 - `.parquet`
 - `.ods`
+
+## Blogs
+
+1. [RObservations #51: Download Kaggle Datasets into the R Console with {RKaggle}](https://bensstats.wordpress.com/2025/03/30/robservations-51-download-kaggle-datasets-into-the-r-console-with-rkaggle/)
 
 ## References
 
