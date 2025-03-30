@@ -9,26 +9,47 @@ get_dataset(dataset)
 \arguments{
 \item{dataset}{A character string specifying the dataset identifier on Kaggle. It should follow the format "username/dataset-name".}
 }
-\value{
-A list of data frames, where each data frame corresponds to a CSV file extracted from the dataset's ZIP archive.
-}
 \description{
-This function retrieves a dataset from Kaggle by downloading its metadata and associated ZIP file, then reading all CSV files contained in the archive. The ZIP file is downloaded to a temporary location and extracted to another temporary directory. Each CSV file is then imported as a data frame, and the function returns a list of these data frames.
+This function retrieves a dataset from Kaggle by downloading its metadata and associated ZIP file, then reading all supported files contained in the archive. The ZIP file is downloaded to a temporary location and extracted to another temporary directory. Each supported file is imported into R using the appropriate function, and the function returns a single data frame if only one file is detected or an unnamed list of data frames otherwise.
 }
 \details{
-The function constructs the metadata URL based on the provided dataset identifier, then sends a GET request using the \code{httr} package. If the request is successful, the returned JSON metadata is parsed. The function searches the metadata for a file with an encoding format of "application/zip", then downloads that ZIP file using a temporary file (managed by the \code{withr} package). After unzipping the file into a temporary directory, the function locates all CSV files, reads each using \code{readr::read_csv}, and returns a list of data frames. If any of the following occur, the function stops with an error:
+The function constructs the metadata URL based on the provided dataset identifier, then sends a GET request using the \code{httr} package. If the request is successful, the returned JSON metadata is parsed. The function searches the metadata for a file with an encoding format of "application/zip", then downloads that ZIP file using a temporary file (managed by the \code{withr} package). After unzipping the file into a temporary directory, the function locates all files with extensions corresponding to popular dataset formats (\code{csv}, \code{tsv}, \code{xlsx}, \code{json}, \code{rds}, and \code{parquet}). Each file is then read using the appropriate function:
+\itemize{
+  \item \code{readr::read_csv} for CSV files.
+  \item \code{readr::read_tsv} for TSV files.
+  \item \code{readxl::read_excel} for xlsx files.
+  \item \code{jsonlite::fromJSON} for JSON files.
+  \item \code{readRDS} for RDS files.
+  \item \code{arrow::read_parquet} for Parquet files.
+  \item \code{readODS::read_ods} for ODS files
+}
+The function stops with an error if any of the following occur:
 \itemize{
   \item The HTTP request fails.
   \item No ZIP file URL is found in the metadata.
-  \item No CSV files are found in the unzipped contents.
+  \item No supported data files are found in the unzipped contents.
 }
 }
 \examples{
 \dontrun{
   # Download and read the "canadian-prime-ministers" dataset from Kaggle
   canadian_prime_ministers <- get_dataset("benjaminsmith/canadian-prime-ministers")
-  # Access the first data frame from the list
-  df <- canadian_prime_ministers[[1]]
+  canadian_prime_ministers
+  
+  # csv 
+  canadian_prime_ministers <- get_dataset("benjaminsmith/canadian-prime-ministers")
+  # tsv 
+  arabic_twitter <- get_dataset("mksaad/arabic-sentiment-twitter-corpus")
+  # xlsx
+  hr_data <- get_dataset("kmldas/hr-employee-data-descriptive-analytics")
+  # json
+  iris_json <- get_dataset("rtatman/iris-dataset-json-version")
+  # rds
+  br_pop_2019<-get_dataset("ianfukushima/br-pop-2019")
+  # parquet
+  iris_datasets<-get_dataset("gpreda/iris-dataset")
+  #ods
+  new_houses <- get_dataset("nm8883/new-houses-built-each-year-in-england")
 }
 
 }

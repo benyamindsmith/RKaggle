@@ -1,15 +1,24 @@
 Package: RKaggle
-Title: Kaggle dataset downloader API
+Title: Kaggle Dataset Downloader API
 Version: 0.1.0
-Authors@R: person("Benjamin", "Smith", email = "benyamin.smith@mail.utoronto.ca", role = c("aut", "cre"))
-Description: A brief description of what your package does.
+Authors@R: 
+    person("Benjamin", "Smith", 
+           email = "benyamin.smith@mail.utoronto.ca", 
+           role = c("aut", "cre"))
+Description: RKaggle provides functions to download and process datasets from Kaggle by fetching metadata and files, ensuring an easy-to-use interface for data retrieval and management.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Imports:
-  httr,
-  readr,
-  withr
+    httr,
+    readr,
+    withr,
+    jsonlite,
+    arrow,
+    readODS,
+    tibble
 Depends: 
     R (>= 4.1.0)
+Suggests:
+    conflicted
 RoxygenNote: 7.3.2

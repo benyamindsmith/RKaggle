@@ -22,4 +22,12 @@ canadian_prime_ministers
 ```
 ## Present Scope
 
-`RKaggle` presently only supports the download and loading of csv files.
+`RKaggle` presently only supports the download and loading:
+
+- `.csv`
+- `.tsv`
+- `.xlsx`
+- `.json`
+- `.rds`
+- `.parquet`
+- `.ods`
