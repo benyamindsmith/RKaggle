@@ -5,7 +5,7 @@ Authors@R:
     person("Benjamin", "Smith", 
            email = "benyamin.smith@mail.utoronto.ca", 
            role = c("aut", "cre"))
-Description: RKaggle provides functions to download and process datasets from Kaggle by fetching metadata and files, ensuring an easy-to-use interface for data retrieval and management.
+Description: Download Datasets from Kaggle directly into the R console with {RKaggle}. Create seemless workflows for data analysis!
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
