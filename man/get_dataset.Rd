@@ -10,7 +10,7 @@ get_dataset(dataset)
 \item{dataset}{A character string specifying the dataset identifier on Kaggle. It should follow the format "username/dataset-name".}
 }
 \description{
-This function retrieves a dataset from Kaggle by downloading its metadata and associated ZIP file, then reading all supported files contained in the archive. The ZIP file is downloaded to a temporary location and extracted to another temporary directory. Each supported file is imported into R using the appropriate function, and the function returns a single data frame if only one file is detected or an unnamed list of data frames otherwise.
+This function retrieves a dataset from Kaggle by downloading its metadata and associated ZIP file and then reads all supported files contained in its archive. Each supported file is loaded into appropriate function (see details for more information about this). The function returns a single data frame if there is only one file detected and an unnamed list of data frames otherwise. This function is only capable of pulling data from Kaggle Datasets and not competitions.
 }
 \details{
 The function constructs the metadata URL based on the provided dataset identifier, then sends a GET request using the \code{httr} package. If the request is successful, the returned JSON metadata is parsed. The function searches the metadata for a file with an encoding format of "application/zip", then downloads that ZIP file using a temporary file (managed by the \code{withr} package). After unzipping the file into a temporary directory, the function locates all files with extensions corresponding to popular dataset formats (\code{csv}, \code{tsv}, \code{xlsx}, \code{json}, \code{rds}, and \code{parquet}). Each file is then read using the appropriate function:

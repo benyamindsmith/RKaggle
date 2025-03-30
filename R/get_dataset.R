@@ -1,6 +1,6 @@
 #' Download and Read a Dataset from Kaggle
 #'
-#' This function retrieves a dataset from Kaggle by downloading its metadata and associated ZIP file, then reading all supported files contained in the archive. The ZIP file is downloaded to a temporary location and extracted to another temporary directory. Each supported file is imported into R using the appropriate function, and the function returns a single data frame if only one file is detected or an unnamed list of data frames otherwise.
+#' This function retrieves a dataset from Kaggle by downloading its metadata and associated ZIP file and then reads all supported files contained in its archive. Each supported file is loaded into appropriate function (see details for more information about this). The function returns a single data frame if there is only one file detected and an unnamed list of data frames otherwise. This function is only capable of pulling data from Kaggle Datasets and not competitions.
 #'
 #' @param dataset A character string specifying the dataset identifier on Kaggle. It should follow the format "username/dataset-name".
 #'
@@ -43,7 +43,7 @@
 #'   new_houses <- get_dataset("nm8883/new-houses-built-each-year-in-england")
 #' }
 #'
-#' @import httr readr withr utils readxl jsonlite arrow
+#' @import httr readr withr readxl jsonlite arrow
 #' @export
 get_dataset <- function(dataset) {
   # Construct the metadata URL and fetch the metadata from Kaggle

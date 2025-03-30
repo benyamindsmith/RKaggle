@@ -6,8 +6,10 @@ Authors@R:
            email = "benyamin.smith@mail.utoronto.ca", 
            role = c("aut", "cre"),
            comment = c(ORCID = "0009-0007-2206-0177"))
-Description: Download Datasets from Kaggle directly into the R console with {RKaggle}. Create seemless workflows for data analysis!
+Description: Easily download datasets from Kaggle directly into your R environment using {RKaggle}. Streamline your data analysis workflows by importing datasets effortlessly and focusing on insights rather than manual data handling. Perfect for data enthusiasts and professionals looking to integrate Kaggle datasets into their R projects with minimal hassle.
 License: MIT + file LICENSE
+URL: https://github.com/benyamindsmith/RKaggle
+BugReports: https://github.com/benyamindsmith/RKaggle/issues
 Encoding: UTF-8
 LazyData: true
 Imports:

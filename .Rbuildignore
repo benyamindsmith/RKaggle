@@ -3,3 +3,5 @@
 ^LICENSE\.md$
 utils
 ^README\.md$
+^CRAN-SUBMISSION$
+^cran-comments\.md$
