@@ -1,10 +1,11 @@
 Package: RKaggle
-Title: Kaggle Dataset Downloader API
+Title:Kaggle Dataset Downloader API
 Version: 0.1.0
 Authors@R: 
     person("Benjamin", "Smith", 
            email = "benyamin.smith@mail.utoronto.ca", 
-           role = c("aut", "cre"))
+           role = c("aut", "cre"),
+           comment = c(ORCID = "0009-0007-2206-0177"))
 Description: Download Datasets from Kaggle directly into the R console with {RKaggle}. Create seemless workflows for data analysis!
 License: MIT + file LICENSE
 Encoding: UTF-8
@@ -16,7 +17,8 @@ Imports:
     jsonlite,
     arrow,
     readODS,
-    tibble
+    tibble,
+    readxl
 Depends: 
     R (>= 4.1.0)
 Suggests:
