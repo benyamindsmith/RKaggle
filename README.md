@@ -1,5 +1,7 @@
 # RKaggle <a href='https://github.com/benyamindsmith/RKaggle'><img src='https://github.com/benyamindsmith/RKaggle/raw/main/utils/png/hex_sticker.png' align="right" height="300" /></a>
 
+[![](https://www.r-pkg.org/badges/version/RKaggle?color=green)](https://cran.r-project.org/package=RKaggle) 
+
 
 An R package for downloading datasets from Kaggle into the R Console.
 
