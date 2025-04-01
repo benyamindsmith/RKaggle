@@ -20,9 +20,11 @@
 #'   \item No ZIP file URL is found in the metadata.
 #'   \item No supported data files are found in the unzipped contents.
 #' }
+#' 
+#' @returns An unnamed list of dataframes corresponding to the files that were able to be read by \code{get_data()}. If only one file is able to be read, a individual dataframe is returned.
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #'   # Download and read the "canadian-prime-ministers" dataset from Kaggle
 #'   canadian_prime_ministers <- get_dataset("benjaminsmith/canadian-prime-ministers")
 #'   canadian_prime_ministers

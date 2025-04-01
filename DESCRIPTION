@@ -1,12 +1,12 @@
 Package: RKaggle
-Title:Kaggle Dataset Downloader API
+Title: 'Kaggle' Dataset Downloader 'API'
 Version: 0.1.0
 Authors@R: 
     person("Benjamin", "Smith", 
            email = "benyamin.smith@mail.utoronto.ca", 
            role = c("aut", "cre"),
            comment = c(ORCID = "0009-0007-2206-0177"))
-Description: Easily download datasets from Kaggle directly into your R environment using {RKaggle}. Streamline your data analysis workflows by importing datasets effortlessly and focusing on insights rather than manual data handling. Perfect for data enthusiasts and professionals looking to integrate Kaggle datasets into their R projects with minimal hassle.
+Description: Easily download datasets from Kaggle <https://www.kaggle.com/> directly into your R environment using 'RKaggle'. Streamline your data analysis workflows by importing datasets effortlessly and focusing on insights rather than manual data handling. Perfect for data enthusiasts and professionals looking to integrate Kaggle datasets into their R projects with minimal hassle.
 License: MIT + file LICENSE
 URL: https://github.com/benyamindsmith/RKaggle
 BugReports: https://github.com/benyamindsmith/RKaggle/issues
