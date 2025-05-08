@@ -86,7 +86,7 @@ get_dataset <- function(dataset) {
   # List files of popular dataset types in the unzipped folder.
   data_files <- list.files(
     unzip_dir, 
-    pattern = "\\.(csv|tsv|xls|xlsx|json|rds|parquet|ods)$", 
+    pattern = "\\.(csv|tsv|xls|xlsx|json|rds|parquet|ods|shp|geojson)$", 
     ignore.case = TRUE, 
     full.names = TRUE
   )
@@ -112,6 +112,8 @@ get_dataset <- function(dataset) {
       return(arrow::read_parquet(file))
     } else if (ext == "ods") {
       return(readODS::read_ods(file))
+    } else if (ext == "shp" | ext == "geojson"){
+      return(sf::read_sf(file))
     } else {
       warning(paste("File type", ext, "is not supported."))
       return(NULL)
@@ -119,7 +121,7 @@ get_dataset <- function(dataset) {
   }
   
   # Read each file into R using the appropriate function
-  datasets <- lapply(data_files, function(x) read_data_file(x)|> tibble::as_tibble())
+  datasets <- lapply(data_files, function(x) read_data_file(x))
   
 
   

@@ -20,7 +20,8 @@ Imports:
     arrow,
     readODS,
     tibble,
-    readxl
+    readxl,
+    sf
 Depends: 
     R (>= 4.1.0)
 Suggests:
