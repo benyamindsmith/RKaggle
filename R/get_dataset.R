@@ -48,9 +48,11 @@
 #'   india_states <- get_dataset("dhruvanurag20/final-shp")
 #'   #geojson
 #'   montreal <- get_dataset("rinichristy/montreal-geojson")
+#'   #feather
+#'   ncaa <- get_dataset("corochann/ncaa-march-madness-2020-womens")
 #' }
 #'
-#' @import httr readr withr readxl jsonlite arrow
+#' @import httr readr withr readxl jsonlite arrow sf feather
 #' @export
 get_dataset <- function(dataset) {
   # Construct the metadata URL and fetch the metadata from Kaggle
@@ -91,7 +93,7 @@ get_dataset <- function(dataset) {
   # List files of popular dataset types in the unzipped folder.
   data_files <- list.files(
     unzip_dir, 
-    pattern = "\\.(csv|tsv|xls|xlsx|json|rds|parquet|ods|shp|geojson)$", 
+    pattern = "\\.(csv|tsv|xls|xlsx|json|rds|parquet|ods|shp|geojson|feather)$", 
     ignore.case = TRUE, 
     full.names = TRUE
   )
@@ -119,7 +121,9 @@ get_dataset <- function(dataset) {
       return(readODS::read_ods(file))
     } else if (ext == "shp" | ext == "geojson"){
       return(sf::read_sf(file))
-    } else {
+    } else if (ext == "feather"){
+      return(feather::feather(file))
+    }else {
       warning(paste("File type", ext, "is not supported."))
       return(NULL)
     }

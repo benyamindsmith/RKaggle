@@ -19,11 +19,11 @@ Imports:
     jsonlite,
     arrow,
     readODS,
-    tibble,
     readxl,
     sf
 Depends: 
     R (>= 4.1.0)
 Suggests:
+    tibble,
     conflicted
 RoxygenNote: 7.3.2
