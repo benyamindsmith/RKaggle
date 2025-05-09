@@ -4,7 +4,7 @@
 #'
 #' @param dataset A character string specifying the dataset identifier on Kaggle. It should follow the format "username/dataset-name".
 #'
-#' @details The function constructs the metadata URL based on the provided dataset identifier, then sends a GET request using the \code{httr} package. If the request is successful, the returned JSON metadata is parsed. The function searches the metadata for a file with an encoding format of "application/zip", then downloads that ZIP file using a temporary file (managed by the \code{withr} package). After unzipping the file into a temporary directory, the function locates all files with extensions corresponding to popular dataset formats (\code{csv}, \code{tsv}, \code{xlsx}, \code{json}, \code{rds}, \code{parquet}, \code{ods}, \code{shp}, \code{geojson}). Each file is then read using the appropriate function:
+#' @details The function constructs the metadata URL based on the provided dataset identifier, then sends a GET request using the \code{httr} package. If the request is successful, the returned JSON metadata is parsed. The function searches the metadata for a file with an encoding format of "application/zip", then downloads that ZIP file using a temporary file (managed by the \code{withr} package). After unzipping the file into a temporary directory, the function locates all files with extensions corresponding to popular dataset formats (\code{csv}, \code{tsv}, \code{xlsx}, \code{json}, \code{rds}, \code{parquet}, \code{ods}, \code{shp}, \code{geojson} and \code{feather}). Each file is then read using the appropriate function:
 #' \itemize{
 #'   \item \code{readr::read_csv} for CSV files.
 #'   \item \code{readr::read_tsv} for TSV files.
@@ -14,6 +14,7 @@
 #'   \item \code{arrow::read_parquet} for Parquet files.
 #'   \item \code{readODS::read_ods} for ODS files
 #'   \item \code{sf::read_sf} for SHP and GEOJSON files.
+#'   \item \code{arrow::read_feather} for Feather files.
 #' }
 #' The function stops with an error if any of the following occur:
 #' \itemize{
@@ -52,7 +53,7 @@
 #'   ncaa <- get_dataset("corochann/ncaa-march-madness-2020-womens")
 #' }
 #'
-#' @import httr readr withr readxl jsonlite arrow sf feather
+#' @import httr readr withr readxl jsonlite arrow sf
 #' @export
 get_dataset <- function(dataset) {
   # Construct the metadata URL and fetch the metadata from Kaggle
@@ -122,7 +123,7 @@ get_dataset <- function(dataset) {
     } else if (ext == "shp" | ext == "geojson"){
       return(sf::read_sf(file))
     } else if (ext == "feather"){
-      return(feather::feather(file))
+      return(arrow::read_feather(file))
     }else {
       warning(paste("File type", ext, "is not supported."))
       return(NULL)

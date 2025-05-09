@@ -16,7 +16,7 @@ An unnamed list of dataframes corresponding to the files that were able to be re
 This function retrieves a dataset from Kaggle by downloading its metadata and associated ZIP file and then reads all supported files contained in its archive. Each supported file is loaded into appropriate function (see details for more information about this). The function returns a single data frame if there is only one file detected and an unnamed list of data frames otherwise. This function is only capable of pulling data from Kaggle Datasets and not competitions.
 }
 \details{
-The function constructs the metadata URL based on the provided dataset identifier, then sends a GET request using the \code{httr} package. If the request is successful, the returned JSON metadata is parsed. The function searches the metadata for a file with an encoding format of "application/zip", then downloads that ZIP file using a temporary file (managed by the \code{withr} package). After unzipping the file into a temporary directory, the function locates all files with extensions corresponding to popular dataset formats (\code{csv}, \code{tsv}, \code{xlsx}, \code{json}, \code{rds}, \code{parquet}, \code{ods}, \code{shp}, \code{geojson}). Each file is then read using the appropriate function:
+The function constructs the metadata URL based on the provided dataset identifier, then sends a GET request using the \code{httr} package. If the request is successful, the returned JSON metadata is parsed. The function searches the metadata for a file with an encoding format of "application/zip", then downloads that ZIP file using a temporary file (managed by the \code{withr} package). After unzipping the file into a temporary directory, the function locates all files with extensions corresponding to popular dataset formats (\code{csv}, \code{tsv}, \code{xlsx}, \code{json}, \code{rds}, \code{parquet}, \code{ods}, \code{shp}, \code{geojson} and \code{feather}). Each file is then read using the appropriate function:
 \itemize{
   \item \code{readr::read_csv} for CSV files.
   \item \code{readr::read_tsv} for TSV files.
@@ -26,6 +26,7 @@ The function constructs the metadata URL based on the provided dataset identifie
   \item \code{arrow::read_parquet} for Parquet files.
   \item \code{readODS::read_ods} for ODS files
   \item \code{sf::read_sf} for SHP and GEOJSON files.
+  \item \code{arrow::read_feather} for Feather files.
 }
 The function stops with an error if any of the following occur:
 \itemize{
@@ -58,6 +59,8 @@ The function stops with an error if any of the following occur:
   india_states <- get_dataset("dhruvanurag20/final-shp")
   #geojson
   montreal <- get_dataset("rinichristy/montreal-geojson")
+  #feather
+  ncaa <- get_dataset("corochann/ncaa-march-madness-2020-womens")
 }
 
 }
