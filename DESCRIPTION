@@ -1,6 +1,6 @@
 Package: RKaggle
 Title: 'Kaggle' Dataset Downloader 'API'
-Version: 0.1.0
+Version: 0.1.1
 Authors@R: 
     person("Benjamin", "Smith", 
            email = "benyamin.smith@mail.utoronto.ca", 

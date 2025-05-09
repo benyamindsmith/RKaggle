@@ -4,7 +4,7 @@
 #'
 #' @param dataset A character string specifying the dataset identifier on Kaggle. It should follow the format "username/dataset-name".
 #'
-#' @details The function constructs the metadata URL based on the provided dataset identifier, then sends a GET request using the \code{httr} package. If the request is successful, the returned JSON metadata is parsed. The function searches the metadata for a file with an encoding format of "application/zip", then downloads that ZIP file using a temporary file (managed by the \code{withr} package). After unzipping the file into a temporary directory, the function locates all files with extensions corresponding to popular dataset formats (\code{csv}, \code{tsv}, \code{xlsx}, \code{json}, \code{rds}, and \code{parquet}). Each file is then read using the appropriate function:
+#' @details The function constructs the metadata URL based on the provided dataset identifier, then sends a GET request using the \code{httr} package. If the request is successful, the returned JSON metadata is parsed. The function searches the metadata for a file with an encoding format of "application/zip", then downloads that ZIP file using a temporary file (managed by the \code{withr} package). After unzipping the file into a temporary directory, the function locates all files with extensions corresponding to popular dataset formats (\code{csv}, \code{tsv}, \code{xlsx}, \code{json}, \code{rds}, \code{parquet}, \code{ods}, \code{shp}, \code{geojson}). Each file is then read using the appropriate function:
 #' \itemize{
 #'   \item \code{readr::read_csv} for CSV files.
 #'   \item \code{readr::read_tsv} for TSV files.
@@ -13,6 +13,7 @@
 #'   \item \code{readRDS} for RDS files.
 #'   \item \code{arrow::read_parquet} for Parquet files.
 #'   \item \code{readODS::read_ods} for ODS files
+#'   \item \code{sf::read_sf} for SHP and GEOJSON files.
 #' }
 #' The function stops with an error if any of the following occur:
 #' \itemize{
@@ -43,6 +44,10 @@
 #'   iris_datasets<-get_dataset("gpreda/iris-dataset")
 #'   #ods
 #'   new_houses <- get_dataset("nm8883/new-houses-built-each-year-in-england")
+#'   #shp
+#'   india_states <- get_dataset("dhruvanurag20/final-shp")
+#'   #geojson
+#'   montreal <- get_dataset("rinichristy/montreal-geojson")
 #' }
 #'
 #' @import httr readr withr readxl jsonlite arrow
@@ -122,9 +127,7 @@ get_dataset <- function(dataset) {
   
   # Read each file into R using the appropriate function
   datasets <- lapply(data_files, function(x) read_data_file(x))
-  
 
-  
   # Remove any unsuccessful reads (if any file returned NULL)
   datasets <- datasets[!sapply(datasets, is.null)]
   
