@@ -8,12 +8,21 @@ An R package for downloading datasets from Kaggle into the R Console.
 
 ## Installation
 
+To install the latest version on CRAN, run: 
+
+```r
+install.packages("RKaggle")
+```
+
+To install the development version, run: 
+
 ```r
 # install.packages('devtools')
 
 devtools::install_github("benyamindsmith/RKaggle")
 
 ```
+
 
 ## Sample Usage
 
@@ -49,6 +58,9 @@ devtools::install_github("benyamindsmith/RKaggle")
 - `.rds`
 - `.parquet`
 - `.ods`
+- `.shp`
+- `.geojson`
+- `.feather`
 
 ## Blogs
 
