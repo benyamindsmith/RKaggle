@@ -1,5 +1,10 @@
 ## R CMD check results
 
+### Version 0.1.2
+0 errors | 0 warnings | 0 notes
+
+* `get_dataset()` now returns a named list of dataframes in the case of multiple files. 
+
 ### Version 0.1.1
 0 errors | 0 warnings | 0 notes
 

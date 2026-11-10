@@ -10,7 +10,7 @@ get_dataset(dataset)
 \item{dataset}{A character string specifying the dataset identifier on Kaggle. It should follow the format "username/dataset-name".}
 }
 \value{
-An unnamed list of dataframes corresponding to the files that were able to be read by \code{get_data()}. If only one file is able to be read, a individual dataframe is returned.
+An named list of dataframes corresponding to the files that were able to be read by \code{get_data()}. If only one file is able to be read, a individual dataframe is returned.
 }
 \description{
 This function retrieves a dataset from Kaggle by downloading its metadata and associated ZIP file and then reads all supported files contained in its archive. Each supported file is loaded into appropriate function (see details for more information about this). The function returns a single data frame if there is only one file detected and an unnamed list of data frames otherwise. This function is only capable of pulling data from Kaggle Datasets and not competitions.
