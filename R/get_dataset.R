@@ -23,7 +23,7 @@
 #'   \item No supported data files are found in the unzipped contents.
 #' }
 #' 
-#' @returns An unnamed list of dataframes corresponding to the files that were able to be read by \code{get_data()}. If only one file is able to be read, a individual dataframe is returned.
+#' @returns An named list of dataframes corresponding to the files that were able to be read by \code{get_data()}. If only one file is able to be read, a individual dataframe is returned.
 #'
 #' @examples
 #' \donttest{
@@ -110,7 +110,7 @@ get_dataset <- function(dataset) {
       return(readr::read_csv(file))
     } else if (ext == "tsv") {
       return(readr::read_tsv(file))
-    } else if (ext %in% c("xlsx")) {
+    } else if (ext %in% c("xls","xlsx")) {
       return(readxl::read_excel(file))
     }else if (ext == "json") {
       return(jsonlite::fromJSON(file))
@@ -132,8 +132,11 @@ get_dataset <- function(dataset) {
   
   # Read each file into R using the appropriate function
   datasets <- lapply(data_files, function(x) read_data_file(x))
-
-  # Remove any unsuccessful reads (if any file returned NULL)
+  # Create safe, unique names from the file names
+  clean_names <- tools::file_path_sans_ext(basename(data_files))
+  safe_names <- make.names(clean_names, unique = TRUE)
+  names(datasets) <- gsub("\\.", "_", safe_names)
+  
   datasets <- datasets[!sapply(datasets, is.null)]
   
   # Return a single dataset if there's only one, or a list of datasets otherwise.

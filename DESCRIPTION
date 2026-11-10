@@ -1,6 +1,6 @@
 Package: RKaggle
 Title: 'Kaggle' Dataset Downloader 'API'
-Version: 0.1.1
+Version: 0.1.2
 Authors@R: 
     person("Benjamin", "Smith", 
            email = "benyamin.smith@mail.utoronto.ca", 
@@ -26,4 +26,4 @@ Depends:
 Suggests:
     tibble,
     conflicted
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
