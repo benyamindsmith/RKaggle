@@ -284,6 +284,11 @@
   if (length(.xgb_candidates(files))) {
     return("xgboost")
   }
+  
+  if (!is.na(.hf_transformers_dir(files))) {
+    return("transformers")
+  }
+  
   stop("Couldn't tell what kind of model this is. Files found:\n  ",
        paste(utils::head(b, 20), collapse = "\n  "),
        "\nSet `model_type` explicitly.",
@@ -1054,6 +1059,117 @@ per_channel <- function(x, v, op) {
   )
 }
 
+
+#' Find a Hugging Face Transformers checkpoint directory
+#'
+#' A checkpoint is a directory holding a `config.json` with a `model_type`
+#' field plus `*.safetensors` or `pytorch_model*.bin` weights.
+#'
+#' @param files Paths of all downloaded files.
+#' @return The checkpoint directory, or `NA_character_` if there is none.
+#' @keywords internal
+#' @noRd
+.hf_transformers_dir <- function(files) {
+  cfg <- files[basename(files) == "config.json"]
+  for (f in cfg) {
+    d <- dirname(f)
+    here <- basename(files[dirname(files) == d])
+    has_weights <- any(grepl("\\.safetensors$|^pytorch_model.*\\.bin$", here))
+    model_type <- tryCatch(
+      jsonlite::fromJSON(f, simplifyVector = FALSE)$model_type,
+      error = function(e) NULL
+    )
+    if (has_weights && is.character(model_type)) {
+      return(d)
+    }
+  }
+  NA_character_
+}
+
+#' Undo browser duplicate-download names
+#'
+#' Renames e.g. `tokenizer (1).json` to `tokenizer.json`, unless a file with
+#' the clean name already exists. Loaders look for exact file names.
+#'
+#' @param dir Directory to tidy.
+#' @keywords internal
+#' @noRd
+.tidy_download_names <- function(dir) {
+  f <- list.files(dir, full.names = TRUE)
+  clean <- sub(" \\([0-9]+\\)(\\.[^.]*)?$", "\\1", basename(f))
+  todo <- clean != basename(f) & !file.exists(file.path(dir, clean))
+  if (any(todo)) {
+    file.rename(f[todo], file.path(dir, clean[todo]))
+  }
+  invisible(dir)
+}
+
+#' Load a Hugging Face Transformers language model
+#'
+#' Converts the checkpoint with KerasHub (`CausalLM$from_preset()` reads
+#' Hugging Face `config.json` + safetensors directly for the architectures it
+#' supports: GPT-2, Llama, Mistral, Gemma, Qwen, ...).
+#'
+#' @param all_files Paths of all downloaded files.
+#' @return `function(prompt, max_length, sampler, strip_prompt)` returning a
+#'   character vector of generated text.
+#' @keywords internal
+#' @noRd
+.load_hf_transformers <- function(all_files) {
+  dir <- .hf_transformers_dir(all_files)
+  if (is.na(dir)) {
+    stop("No Hugging Face checkpoint (config.json + safetensors) found.",
+         call. = FALSE
+    )
+  }
+  .tidy_download_names(dir)
+  
+  .require_pkg("reticulate")
+  if (requireNamespace("keras3", quietly = TRUE)) loadNamespace("keras3")
+  if ("py_require" %in% getNamespaceExports("reticulate")) {
+    try(getExportedValue("reticulate", "py_require")("keras-hub"), silent = TRUE)
+  }
+  if (!reticulate::py_module_available("keras_hub")) {
+    stop("Hugging Face checkpoints are loaded through KerasHub. Install it once with:\n",
+         "  reticulate::py_install(\"keras-hub\")",
+         call. = FALSE
+    )
+  }
+  kh <- reticulate::import("keras_hub")
+  
+  arch <- jsonlite::fromJSON(file.path(dir, "config.json"),
+                             simplifyVector = FALSE
+  )$model_type
+  message("--> Hugging Face checkpoint (", arch, "); converting with KerasHub...")
+  
+  lm <- tryCatch(
+    kh$models$CausalLM$from_preset(dir),
+    error = function(e) {
+      stop("KerasHub couldn't load this '", arch, "' checkpoint:\n  ",
+           conditionMessage(e),
+           "\nIf KerasHub doesn't support this architecture, try a GGUF build ",
+           "of the model instead (model_type = \"gguf\").",
+           call. = FALSE
+      )
+    }
+  )
+  
+  function(prompt, max_length = 64L, sampler = "greedy", strip_prompt = FALSE) {
+    prompt <- as.character(prompt)
+    lm$compile(sampler = sampler)
+    # KerasHub's max_length counts the prompt tokens too.
+    out <- lm$generate(
+      if (length(prompt) == 1L) prompt else as.list(prompt),
+      max_length = as.integer(max_length)
+    )
+    out <- as.character(unlist(out))
+    if (strip_prompt) {
+      keep <- startsWith(out, prompt)
+      out[keep] <- trimws(substring(out[keep], nchar(prompt[keep]) + 1L), "left")
+    }
+    out
+  }
+}
 #' Stop if a suggested package isn't installed
 #'
 #' @param pkg Package name.
@@ -1111,3 +1227,4 @@ per_channel <- function(x, v, op) {
 #' @keywords internal
 #' @noRd
 `%||%` <- function(a, b) if (is.null(a)) b else a
+

@@ -112,6 +112,7 @@ load_model <- function(url,
          keras        = .load_keras(all_files),
          torch_script = .load_torch_script(all_files),
          xgboost      = .load_xgboost(all_files),
-         gguf         = .load_gguf(all_files)
+         gguf         = .load_gguf(all_files),
+         transformers = .load_hf_transformers(all_files)
   )
 }
