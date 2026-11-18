@@ -4,7 +4,7 @@
 [![downloads](https://cranlogs.r-pkg.org/badges/RKaggle)](https://shinyus.ipub.com/cranview/)
 [![total](https://cranlogs.r-pkg.org/badges/grand-total/RKaggle)](https://shinyus.ipub.com/cranview/)
 
-An R package for downloading datasets from Kaggle into the R Console.
+An R package for downloading datasets and models from Kaggle into the R Console.
 
 ## Installation
 
@@ -25,6 +25,8 @@ devtools::install_github("benyamindsmith/RKaggle")
 
 
 ## Sample Usage
+
+### Downloading Datasets
 
 ```r
 >library(RKaggle)
@@ -47,6 +49,18 @@ devtools::install_github("benyamindsmith/RKaggle")
 # ℹ 19 more rows
 # ℹ Use `print(n = ...)` to see more rows
 ```
+
+### Downloading Models
+
+```r
+>library(RKaggle)
+# Load a pre-trained model (e.g. GPT-2)
+generate <- load_model("keras/gpt2/keras/gpt2_base_en")
+# Greedy decoding: deterministic, same output every time
+generate("The R programming language is", max_length = 40, sampler = "greedy")
+[1] "The R programming language is a very powerful programming language that can be used to create complex programs.\n\nThe R programming language is a very powerful programming language that can be used to create complex programs."
+```
+
 ## Present Scope
 
 `RKaggle` presently only supports the download and loading of the following file formats: 
@@ -61,6 +75,8 @@ devtools::install_github("benyamindsmith/RKaggle")
 - `.shp`
 - `.geojson`
 - `.feather`
+
+For downloading models, the scope is yet to be determined :) (please open an issue/pr if you run into any problems or want to share an improvement)
 
 ## Blogs
 
